@@ -56,6 +56,10 @@ body {
   padding: 0;
 }
 
+.highlight.square{
+  background-color: green;
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;

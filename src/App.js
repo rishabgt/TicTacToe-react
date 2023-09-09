@@ -48,8 +48,15 @@ export default function Game() {
 }
 
 function Square(props) {
+let highlight = false;
+  if(props.winner !== null){
+    props.winner[1].forEach(element => {
+        if(element === props.id)
+            highlight = true;
+    });
+  }
   return (
-    <button className="square" onClick={props.onSquareClick}>
+    <button className={`square ${highlight?'highlight':''}`} onClick={()=>props.onSquareClick()}>
       {props.value}
     </button>
   );
@@ -66,7 +73,7 @@ function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = "Winner is " + winner;
+    status = "Winner is " + winner[0];
   } else {
     status = "Next player is " + (xIsNext ? "X" : "O");
   }
@@ -81,6 +88,8 @@ function Board({ xIsNext, squares, onPlay }) {
               let offset = 3 * index;
               return (
                 <Square
+                  id={offset+i}
+                  winner={winner}
                   key={offset + i}
                   value={squares[i + offset]}
                   onSquareClick={() => handleClick(i + offset)}
@@ -115,7 +124,7 @@ function Board({ xIsNext, squares, onPlay }) {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        return squares[a];
+        return [squares[a],lines[i]];
       }
     }
     return null;
